@@ -4,7 +4,7 @@
  */
 
 package com.mycompany.call_center_waiting_line_system;
-import utilities.*;
+import data_structs.Queue;
 
 /**
  *
