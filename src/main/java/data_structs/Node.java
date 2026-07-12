@@ -16,31 +16,31 @@ public class Node<T> {
         this.previous = previous;
     }
     
-    public T Get() {
+    public T get() {
         return this.data;
     }
     
-    public Node<T> GetPrevious() {
+    public Node<T> getPrevious() {
         return this.previous;
     }
     
-    public Node<T> GetNext() {
+    public Node<T> getNext() {
         return this.next;
     }
     
-    public Queue<T> GetOwner() {
+    public Queue<T> getOwner() {
         return this.list_owner;
     }
     
-    public void SetPrevious(Node<T> previous) {
+    public void setPrevious(Node<T> previous) {
         this.previous = previous;
     }
     
-    public void SetNext(Node<T> next) {
+    public void setNext(Node<T> next) {
         this.next = next;
     }
     
-    public void SetOwner(Queue<T> owner) {
+    public void setOwner(Queue<T> owner) {
         this.list_owner = owner;
     }
     

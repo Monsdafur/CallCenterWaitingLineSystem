@@ -4,7 +4,7 @@
  */
 
 package com.mycompany.call_center_waiting_line_system;
-import data_structs.Queue;
+import data_objects.*;
 
 /**
  *
@@ -13,16 +13,13 @@ import data_structs.Queue;
 public class Call_Center_Waiting_Line_System {
 
     public static void main(String[] args) {
-        Queue<Integer> queue = new Queue<>(true);
-        queue.Enqueue(0);
-        queue.Enqueue(3);
-        queue.Enqueue(1);
-        queue.Enqueue(5);
-        queue.Enqueue(2);
-        queue.Enqueue(7);
-        Integer e;
-        do {
-            e = queue.Dequeue();
-        } while (e != null);
+        CallsManager call_manager = new CallsManager();
+        call_manager.addCustomer(new Customer("asuidhasiudgasd", "187341287", 2, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("oihgsoibiasdfif", "98657279634", 6, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("fiuvgiuia", "1374187654", 2, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("sajiuaghoghh", "57125875178", 2, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("asiuiuaiutiu", "5284768276", 6, Customer.Type.VIP));
+        
+        call_manager.displayTable();
     }
 }
