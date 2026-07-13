@@ -55,7 +55,7 @@ public class CallsManager {
             string_list.add(this.regular.get(i).asStringArray());
         }
         
-        System.out.print("Customer queue:");
+        System.out.print("Customer list (unsorted):");
         TableOutput.printTable(LABELS, string_list);
     }
     

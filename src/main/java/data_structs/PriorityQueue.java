@@ -54,14 +54,16 @@ public class PriorityQueue<T> {
     
     int getLeft(int i) {
         // Formula to get the left child of any tree node
-        // index = i * 2
-        return (i * 2) >= this.elements.size() ? -1 : (i * 2);
+        // index = i * 2 + 1
+        int left_index = (i * 2) + 1;
+        return left_index >= this.elements.size() ? -1 : left_index;
     }
     
     int getRight(int i) {
         // Formula to get the right child of any tree node
-        // index = i * 2 + 1
-        return (i * 2 + 1) >= this.elements.size() ? -1 : (i * 2 + 1);
+        // index = i * 2 + 2
+        int right_index = (i * 2) + 2;
+        return right_index >= this.elements.size() ? -1 : right_index;
     }
     
     int getGreatest(int i) {
@@ -78,7 +80,7 @@ public class PriorityQueue<T> {
             }
         }
         if (right != -1) {
-            if (comparator.compare(this.elements.get(right), this.elements.get(i)) > 0) {
+            if (comparator.compare(this.elements.get(right), this.elements.get(greatest)) > 0) {
                 greatest = right;
             }
         }
