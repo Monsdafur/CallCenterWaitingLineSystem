@@ -41,9 +41,14 @@ public class Customer {
         return this.type == Type.VIP;
     }
     
+    @Override
+    public String toString() {
+        return String.format("{ Name: %s; Contact: %s; Call times: %d", this.name, this.contact, this.call_times);
+    }
+    
     public String[] asStringArray() {
         return new String[] {
-            name, contact, Integer.toString(call_times)
+            name, contact, Integer.toString(call_times), this.isVip() ? "VIP" : "Regular"
         };
     }
     

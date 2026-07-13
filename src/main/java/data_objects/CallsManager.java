@@ -25,6 +25,7 @@ public class CallsManager {
         if (customer.isVip()) {
             if (!priority.containsKey(customer.getCallTimes())) { // if there hasn't any customers with the same call times in the map we add a new one
                 Queue<Customer> queue = new Queue<>(false);
+                queue.Enqueue(customer);
                 this.priority.put(customer.getCallTimes(), queue);
             }
             else { // otherwise the enqueue the customer into the designated call time score key value in the treemap 
@@ -34,6 +35,7 @@ public class CallsManager {
         else { // this part is basically the same but with regular map instead of priority map
             if (!regular.containsKey(customer.getCallTimes())) {
                 Queue<Customer> queue = new Queue<>(false);
+                queue.Enqueue(customer);
                 this.regular.put(customer.getCallTimes(), queue);
             }
             else {
@@ -53,13 +55,23 @@ public class CallsManager {
     public void displayTable() {
         List<String[]> priority_string_list = new ArrayList<>();
         
-        for (Map.Entry<Integer, Queue<Customer>> entry : this.priority.entrySet()) {
+        // displaying priority queue
+        for (Map.Entry<Integer, Queue<Customer>> entry : this.priority.descendingMap().entrySet()) {
             List<Customer> customers = entry.getValue().toList();
             for (Customer customer : customers) {
                 priority_string_list.add(customer.asStringArray());
             }
         }
         
+        // displaying regular queue
+        for (Map.Entry<Integer, Queue<Customer>> entry : this.regular.descendingMap().entrySet()) {
+            List<Customer> customers = entry.getValue().toList();
+            for (Customer customer : customers) {
+                priority_string_list.add(customer.asStringArray());
+            }
+        }
+        
+        System.out.print("Customer queue:");
         TableOutput.printTable(LABELS, priority_string_list);
     }
     
@@ -69,5 +81,5 @@ public class CallsManager {
     // regular map is preserved for regular customer queues
     private TreeMap<Integer, Queue<Customer>> regular;
     // headers labels for outputing to table
-    private static final String[] LABELS = {"Name", "Contact", "Call times"};
+    private static final String[] LABELS = {"Name", "Contact", "Call times", "Customer type"};
 }
