@@ -31,6 +31,15 @@ public class CallsManager {
         }
     }
     
+    public void removeCustomer(int i, Customer.Type type) {
+        switch (type) {
+            case VIP:
+                this.priority.remove(i);
+            case NORMAL:
+                this.regular.remove(i);
+        }
+    }
+    
     public void processCall() {
         List<String[]> customer = new ArrayList<>();
         if (this.priority.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
