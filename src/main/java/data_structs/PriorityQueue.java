@@ -6,22 +6,24 @@ package data_structs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 /**
  *
  * @author dqhoa
  */
-public class PriorityQueue {
-    public PriorityQueue() {
-        elements = new ArrayList<>();
+public class PriorityQueue<T> {
+    public PriorityQueue(Comparator<? super T> comparator) {
+        this.elements = new ArrayList<>();
+        this.comparator = comparator;
     }
     
-    public void push(Integer element) {
+    public void push(T element) {
         elements.add(element);
         build();
     }
     
-    public Integer get(int i) {
+    public T get(int i) {
         return this.elements.get(i);
     }
     
@@ -29,8 +31,8 @@ public class PriorityQueue {
         return this.elements.size();
     }
     
-    public Integer pop() {
-        Integer result = this.elements.get(0);
+    public T pop() {
+        T result = this.elements.get(0);
         this.elements.set(0, this.elements.get(this.elements.size() - 1));
         this.elements.remove(this.elements.size() - 1);
         this.build();
@@ -51,12 +53,12 @@ public class PriorityQueue {
         
         int greatest = i;
         if (left != -1) {
-            if (this.elements.get(left) > this.elements.get(i)) {
+            if (comparator.compare(this.elements.get(left), this.elements.get(i)) > 0) {
                 greatest = left;
             }
         }
         if (right != -1) {
-            if (this.elements.get(right) > this.elements.get(i)) {
+            if (comparator.compare(this.elements.get(right), this.elements.get(i)) > 0) {
                 greatest = right;
             }
         }
@@ -67,7 +69,7 @@ public class PriorityQueue {
     void heapify(int i) {
         int greatest = this.getGreatest(i);
         if (i != greatest) {
-            int temp = this.elements.get(i);
+            T temp = this.elements.get(i);
             this.elements.set(i, this.elements.get(greatest));
             this.elements.set(greatest, temp);
             this.heapify(greatest);
@@ -80,5 +82,6 @@ public class PriorityQueue {
         }
     }
     
-    List<Integer> elements;
+    List<T> elements;
+    Comparator<? super T> comparator;
 }
