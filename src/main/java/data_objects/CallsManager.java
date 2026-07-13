@@ -4,13 +4,11 @@
  */
 package data_objects;
 
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.List;
-import data_structs.*;
 import java.util.Comparator;
-import utilities.*;
+import data_structs.PriorityQueue;
+import utilities.TableOutput;
 
 /**
  *

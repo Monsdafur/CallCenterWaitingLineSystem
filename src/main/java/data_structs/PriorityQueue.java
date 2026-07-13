@@ -20,16 +20,21 @@ public class PriorityQueue<T> {
     
     public void push(T element) {
         // Add new element into the array
-        elements.add(element);
+        this.elements.add(element);
         // Fix heap tree to push element with greatest value on top
-        build();
+        this.siftUp(elements.size() - 1);
     }
     
     public void remove(int i) {
+        if (i > this.elements.size()) {
+            return;
+        }
         // Remove element by index
-        elements.remove(i);
+        this.elements.remove(i);
         // Fix heap tree to push element with greatest value on top
-        build();
+        if (i < this.elements.size()) {
+            this.siftUp(i);
+        }
     }
     
     public T get(int i) {
@@ -47,7 +52,9 @@ public class PriorityQueue<T> {
         this.elements.set(0, this.elements.get(this.elements.size() - 1));
         this.elements.remove(this.elements.size() - 1);
         // Fix heap tree to push element with greatest value on top
-        this.build();
+        if (!this.elements.isEmpty()) {
+            this.heapify(0);
+        }
         
         return result;
     }
@@ -86,6 +93,24 @@ public class PriorityQueue<T> {
         }
         
         return greatest;
+    }
+        
+    void siftUp(int i) {
+        while (i > 0) {
+            // The formula to get parent
+            // index = (i - 1) / 2
+            int parent = (i - 1) / 2;
+            // if the child is greater than the parent we swap
+            if (comparator.compare(this.elements.get(i), this.elements.get(parent)) > 0) {
+                T temp = this.elements.get(i);
+                this.elements.set(i, this.elements.get(parent));
+                this.elements.set(parent, temp);
+                
+                i = parent;
+            } else {
+                break;
+            }
+        }
     }
     
     void heapify(int i) {
