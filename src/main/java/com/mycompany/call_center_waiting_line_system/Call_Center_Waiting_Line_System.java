@@ -13,11 +13,11 @@ import data_objects.*;
 public class Call_Center_Waiting_Line_System {
     public static void main(String[] args) {
         CallsManager call_manager = new CallsManager();
-        call_manager.addCustomer(new Customer("asuidhasiudgasd", "187341287", 2, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("asuidhasiudgasd", "187341287", 1, Customer.Type.VIP));
         call_manager.addCustomer(new Customer("oihgsoibiasdfif", "98657279634", 6, Customer.Type.VIP));
-        call_manager.addCustomer(new Customer("fiuvgiuia", "1374187654", 2, Customer.Type.VIP));
-        call_manager.addCustomer(new Customer("sajiuaghoghh", "57125875178", 2, Customer.Type.VIP));
-        call_manager.addCustomer(new Customer("asiuiuaiutiu", "5284768276", 6, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("fiuvgiuia", "1374187654", 4, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("sajiuaghoghh", "57125875178", 11, Customer.Type.VIP));
+        call_manager.addCustomer(new Customer("asiuiuaiutiu", "5284768276", 2, Customer.Type.VIP));
         
         call_manager.addCustomer(new Customer("sdiausdaisd", "187341287", 9, Customer.Type.NORMAL));
         call_manager.addCustomer(new Customer("hkaihaihg", "98657279634", 7, Customer.Type.NORMAL));

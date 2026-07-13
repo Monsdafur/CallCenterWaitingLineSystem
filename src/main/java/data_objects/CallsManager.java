@@ -26,36 +26,31 @@ public class CallsManager {
     public void addCustomer(Customer customer) {
         if (customer.isVip()) {
             this.priority.push(customer);
-        }
-        else { // this part is basically the same but with regular map instead of priority map
+        } else {
             this.regular.push(customer);
         }
     }
     
     public void processCall() {
         List<String[]> customer = new ArrayList<>();
-        if (this.priority.getSize() > 0) {
+        if (this.priority.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
             customer.add(this.priority.pop().asStringArray());
-        } else if (this.regular.getSize() > 0) {
+        } else if (this.regular.getSize() > 0) { // Process regular only if priority queue is empty
             customer.add(this.regular.pop().asStringArray());
-        }
-        else {
+        } else {
             System.out.println("No customers to process!");
         }
         
-        System.out.print("No customers to process!");
         TableOutput.printTable(LABELS, customer);
     }
     
     public void displayTable() {
         List<String[]> string_list = new ArrayList<>();
         
-        // displaying priority queue
         for (int i = 0; i < this.priority.getSize(); ++i) {
             string_list.add(this.priority.get(i).asStringArray());
         }
         
-        // displaying regular queue
         for (int i = 0; i < this.regular.getSize(); ++i) {
             string_list.add(this.regular.get(i).asStringArray());
         }
@@ -64,11 +59,10 @@ public class CallsManager {
         TableOutput.printTable(LABELS, string_list);
     }
     
-    // the treemap data struct keeps all queue sorted to the correct order base on the call times
-    // priority map is preserved for VIP customer queues
+    // Priority queue is preserved for VIP customers
     private PriorityQueue<Customer> priority;
-    // regular map is preserved for regular customer queues
+    // Regular queue is preserved for regular customers
     private PriorityQueue<Customer> regular;
-    // headers labels for outputing to table
+    // Headers labels for outputing to table
     private static final String[] LABELS = {"Name", "Contact", "Call times", "Customer type"};
 }
