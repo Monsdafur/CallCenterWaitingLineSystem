@@ -25,8 +25,9 @@ public class Call_Center_Waiting_Line_System {
         call_manager.addCustomer(new Customer("oiaisdhbnh", "57125875178", 3, Customer.Type.NORMAL));
         call_manager.addCustomer(new Customer("iasyduy", "5284768276", 2, Customer.Type.NORMAL));
         
-        for (int i = 0; i < 10; ++i) {
+        while (!call_manager.isEmpty()) {
             call_manager.processCall();
         }
+        call_manager.displayHistory();
     }
 }

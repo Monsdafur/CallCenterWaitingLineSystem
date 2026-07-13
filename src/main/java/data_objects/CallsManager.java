@@ -21,6 +21,7 @@ public class CallsManager {
         Comparator<Customer> comparator = Comparator.comparingInt(Customer::getCallTimes);
         this.priority = new PriorityQueue<>(comparator);
         this.regular = new PriorityQueue<>(comparator);
+        this.processed_calls = new ArrayList<>();
     }
     
     public void addCustomer(Customer customer) {
@@ -40,17 +41,27 @@ public class CallsManager {
         }
     }
     
+    public boolean isEmpty() {
+        return this.priority.getSize() == 0 && this.regular.getSize() == 0;
+    }
+    
     public void processCall() {
-        List<String[]> customer = new ArrayList<>();
         if (this.priority.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
-            customer.add(this.priority.pop().asStringArray());
+            this.processed_calls.add(this.priority.pop());
         } else if (this.regular.getSize() > 0) { // Process regular only if priority queue is empty
-            customer.add(this.regular.pop().asStringArray());
+            this.processed_calls.add(this.regular.pop());
         } else {
             System.out.println("No customers to process!");
         }
-        
-        TableOutput.printTable(LABELS, customer);
+    }
+    
+    public void displayHistory() {
+        List<String[]> string_list = new ArrayList<>();
+        for (int i = 0; i < this.processed_calls.size(); ++i) {
+            string_list.add(this.processed_calls.get(i).asStringArray());
+        }
+        System.out.print("History:");
+        TableOutput.printTable(LABELS, string_list);
     }
     
     public void displayTable() {
@@ -69,9 +80,11 @@ public class CallsManager {
     }
     
     // Priority queue is preserved for VIP customers
-    private PriorityQueue<Customer> priority;
+    private final PriorityQueue<Customer> priority;
     // Regular queue is preserved for regular customers
-    private PriorityQueue<Customer> regular;
+    private final PriorityQueue<Customer> regular;
+    // A list to record all processed calls
+    private final List<Customer> processed_calls;
     // Headers labels for outputing to table
     private static final String[] LABELS = {"Name", "Contact", "Call times", "Customer type"};
 }
