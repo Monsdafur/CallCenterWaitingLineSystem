@@ -13,19 +13,41 @@ import java.util.Comparator;
  * @author dqhoa
  */
 public class HeapTree<T> {
+    private class Entry {
+        Entry(T value, int order) {
+            this.value = value;
+            this.order = order;
+        }
+
+        private final T value;
+        private final int order;
+    }
+
     public HeapTree(Comparator<? super T> comparator) {
         this.elements = new ArrayList<>();
-        this.comparator = comparator;
+        this.comparator = (entry_a, entry_b) -> {
+            int compare_result = comparator.compare(entry_a.value, entry_b.value);
+            if (compare_result == 0) {
+                return entry_b.order - entry_a.order;
+            } else {
+                return compare_result;
+            }
+        };
+        this.current_order = 0;
     }
 
     public void addAll(List<T> list) {
-        this.elements.addAll(list);
+        List<Entry> entry_list = new ArrayList<>();
+        for (T object : list) {
+            entry_list.add(new Entry(object, this.current_order++));
+        }
+        this.elements.addAll(entry_list);
         // Fix heap tree to push element with greatest value on top
         this.build();
     }
 
     public void push(T element) {
-        this.elements.add(element);
+        this.elements.add(new Entry(element, this.current_order++));
         // Fix heap tree to push element with greatest value on top
         this.siftUp(elements.size() - 1);
     }
@@ -37,13 +59,18 @@ public class HeapTree<T> {
         // Remove element by index
         this.swap(i, this.elements.size() - 1);
         this.elements.remove(this.elements.size() - 1);
-        // Fix heap tree to push element with greatest value on top
-        this.siftUp(i);
-        this.siftDown(i);
+        if (this.elements.size() == 0) {
+            this.current_order = 0;
+        }
+        // If the removed element is the last element then we don't need to fix the tree
+        if (i < this.elements.size()) {
+            this.siftUp(i);
+            this.siftDown(i);
+        }
     }
 
     public T get(int i) {
-        return this.elements.get(i);
+        return this.elements.get(i).value;
     }
 
     public int getSize() {
@@ -51,12 +78,21 @@ public class HeapTree<T> {
     }
 
     public int indexOf(T object) {
-        return this.elements.indexOf(object);
+        for (int i = 0; i < this.elements.size(); ++i) {
+            if (object == this.elements.get(i).value) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public T pop() {
+        if (this.elements.size() == 0) {
+            this.current_order = 0;
+            return null;
+        }
         // We first save the popped element into a variable
-        T result = this.elements.get(0);
+        T result = this.elements.get(0).value;
         // Then move the very last element at the bottom of the tree to the root
         this.elements.set(0, this.elements.get(this.elements.size() - 1));
         this.elements.remove(this.elements.size() - 1);
@@ -69,7 +105,7 @@ public class HeapTree<T> {
     }
 
     void swap(int a, int b) {
-        T temp = this.elements.get(a);
+        Entry temp = this.elements.get(a);
         this.elements.set(a, this.elements.get(b));
         this.elements.set(b, temp);
     }
@@ -137,6 +173,7 @@ public class HeapTree<T> {
         }
     }
 
-    List<T> elements;
-    Comparator<? super T> comparator;
+    List<Entry> elements;
+    Comparator<? super Entry> comparator;
+    int current_order;
 }
