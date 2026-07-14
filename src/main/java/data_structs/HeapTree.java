@@ -31,7 +31,7 @@ public class HeapTree<T> {
     }
 
     public void remove(int i) {
-        if (i > this.elements.size()) {
+        if (i >= this.elements.size()) {
             return;
         }
         // Remove element by index
