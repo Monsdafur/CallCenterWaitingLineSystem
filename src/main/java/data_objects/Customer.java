@@ -4,6 +4,9 @@
  */
 package data_objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author dqhoa
@@ -14,10 +17,32 @@ public class Customer {
         VIP
     };
     
-    public Customer(String name, String contact, int call_times, Type type) {
+    @JsonCreator
+    public Customer(
+        @JsonProperty("name") String name,
+        @JsonProperty("contact") String contact,
+        @JsonProperty("call_times") int call_times,
+        @JsonProperty("type") Type type
+    ) {
         this.name = name;
         this.contact = contact;
         this.call_times = call_times;
+        this.type = type;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+    
+    public void setCallTimes(int call_times) {
+        this.call_times = call_times;
+    }
+    
+    public void setType(Type type) {
         this.type = type;
     }
     
@@ -43,7 +68,7 @@ public class Customer {
     
     @Override
     public String toString() {
-        return String.format("{ Name: %s; Contact: %s; Call times: %d", this.name, this.contact, this.call_times);
+        return String.format("Name: %s; Contact: %s; Call times: %d", this.name, this.contact, this.call_times);
     }
     
     public String[] asStringArray() {

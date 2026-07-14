@@ -12,8 +12,8 @@ import java.util.Comparator;
  *
  * @author dqhoa
  */
-public class PriorityQueue<T> {
-    public PriorityQueue(Comparator<? super T> comparator) {
+public class HeapTree<T> {
+    public HeapTree(Comparator<? super T> comparator) {
         this.elements = new ArrayList<>();
         this.comparator = comparator;
     }
@@ -34,6 +34,7 @@ public class PriorityQueue<T> {
         // Fix heap tree to push element with greatest value on top
         if (i < this.elements.size()) {
             this.siftUp(i);
+            this.siftDown(i);
         }
     }
     
@@ -53,40 +54,30 @@ public class PriorityQueue<T> {
         this.elements.remove(this.elements.size() - 1);
         // Fix heap tree to push element with greatest value on top
         if (!this.elements.isEmpty()) {
-            this.heapify(0);
+            this.siftDown(0);
         }
         
         return result;
-    }
-    
-    int getLeft(int i) {
-        // Formula to get the left child of any tree node
-        // index = i * 2 + 1
-        int left_index = (i * 2) + 1;
-        return left_index >= this.elements.size() ? -1 : left_index;
-    }
-    
-    int getRight(int i) {
-        // Formula to get the right child of any tree node
-        // index = i * 2 + 2
-        int right_index = (i * 2) + 2;
-        return right_index >= this.elements.size() ? -1 : right_index;
     }
     
     int getGreatest(int i) {
         // Self explanatory
         // This function return the greatest value between parent, left child and right child
         // using a custom comparator function
-        int left = this.getLeft(i);
-        int right = this.getRight(i);
+        // Formula to get the left child of any tree node
+        // index = i * 2 + 1
+        int left = (i * 2) + 1;
+        // Formula to get the right child of any tree node
+        // index = i * 2 + 2
+        int right = (i * 2) + 2;
         
         int greatest = i;
-        if (left != -1) {
+        if (left < this.elements.size()) {
             if (comparator.compare(this.elements.get(left), this.elements.get(i)) > 0) {
                 greatest = left;
             }
         }
-        if (right != -1) {
+        if (right < this.elements.size()) {
             if (comparator.compare(this.elements.get(right), this.elements.get(greatest)) > 0) {
                 greatest = right;
             }
@@ -113,7 +104,7 @@ public class PriorityQueue<T> {
         }
     }
     
-    void heapify(int i) {
+    void siftDown(int i) {
         // Fetch greatest value in the current node
         int greatest = this.getGreatest(i);
         // If the greatest value between parent left child and right child
@@ -123,15 +114,15 @@ public class PriorityQueue<T> {
             this.elements.set(i, this.elements.get(greatest));
             this.elements.set(greatest, temp);
             // Continue traversing the entire tree
-            this.heapify(greatest);
+            this.siftDown(greatest);
         }
     }
     
     void build() {
-        // We begin heapifying at the left most last node that is not a leaf
+        // We begin siftDowning at the left most last node that is not a leaf
         // and work our way back to the root
         for (int i = elements.size() / 2 - 1; i >= 0; --i) {
-            this.heapify(i);
+            this.siftDown(i);
         }
     }
     

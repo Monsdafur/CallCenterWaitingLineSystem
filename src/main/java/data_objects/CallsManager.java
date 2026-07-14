@@ -7,7 +7,8 @@ package data_objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
-import data_structs.PriorityQueue;
+import data_structs.HeapTree;
+import java.util.Collections;
 import utilities.TableOutput;
 
 /**
@@ -16,38 +17,35 @@ import utilities.TableOutput;
  */
 public class CallsManager {
     public CallsManager() {
-        Comparator<Customer> comparator = Comparator.comparingInt(Customer::getCallTimes);
-        this.priority = new PriorityQueue<>(comparator);
-        this.regular = new PriorityQueue<>(comparator);
+        Comparator<Customer> comparator = (ca, cb) -> {
+            if (ca.isVip() == cb.isVip()) { // If 2 customers are of the same type we do manual compare
+                return ca.getCallTimes() - cb.getCallTimes();
+            } else if (ca.isVip() && !cb.isVip()) { // If customer A is VIP but customer B is not we prioritize customer A and vice versa
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        };
+        this.customers = new HeapTree<>(comparator);
         this.processed_calls = new ArrayList<>();
     }
     
     public void addCustomer(Customer customer) {
-        if (customer.isVip()) {
-            this.priority.push(customer);
-        } else {
-            this.regular.push(customer);
-        }
+        this.customers.push(customer);
     }
     
-    public void removeCustomer(int i, Customer.Type type) {
-        switch (type) {
-            case VIP:
-                this.priority.remove(i);
-            case NORMAL:
-                this.regular.remove(i);
-        }
+    public void removeCustomer(int i) {
+        this.customers.remove(i);
     }
     
     public boolean isEmpty() {
-        return this.priority.getSize() == 0 && this.regular.getSize() == 0;
+        return this.customers.getSize() == 0;
     }
     
     public void processCall() {
-        if (this.priority.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
-            this.processed_calls.add(this.priority.pop());
-        } else if (this.regular.getSize() > 0) { // Process regular only if priority queue is empty
-            this.processed_calls.add(this.regular.pop());
+        if (this.customers.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
+            this.processed_calls.add(this.customers.pop());
         } else {
             System.out.println("No customers to process!");
         }
@@ -56,7 +54,10 @@ public class CallsManager {
     public void displayHistory() {
         List<String[]> string_list = new ArrayList<>();
         for (int i = 0; i < this.processed_calls.size(); ++i) {
-            string_list.add(this.processed_calls.get(i).asStringArray());
+            List<String> strings = new ArrayList<>();
+            strings.add(Integer.toString(i));
+            Collections.addAll(strings, this.processed_calls.get(i).asStringArray());
+            string_list.add(strings.toArray(new String[0]));
         }
         System.out.print("History:");
         TableOutput.printTable(LABELS, string_list);
@@ -65,24 +66,21 @@ public class CallsManager {
     public void displayTable() {
         List<String[]> string_list = new ArrayList<>();
         
-        for (int i = 0; i < this.priority.getSize(); ++i) {
-            string_list.add(this.priority.get(i).asStringArray());
-        }
-        
-        for (int i = 0; i < this.regular.getSize(); ++i) {
-            string_list.add(this.regular.get(i).asStringArray());
+        for (int i = 0; i < this.customers.getSize(); ++i) {
+            List<String> strings = new ArrayList<>();
+            strings.add(Integer.toString(i));
+            Collections.addAll(strings, this.customers.get(i).asStringArray());
+            string_list.add(strings.toArray(new String[0]));
         }
         
         System.out.print("Customer list (unsorted):");
         TableOutput.printTable(LABELS, string_list);
     }
     
-    // Priority queue is preserved for VIP customers
-    private final PriorityQueue<Customer> priority;
     // Regular queue is preserved for regular customers
-    private final PriorityQueue<Customer> regular;
+    private final HeapTree<Customer> customers;
     // A list to record all processed calls
     private final List<Customer> processed_calls;
     // Headers labels for outputing to table
-    private static final String[] LABELS = {"Name", "Contact", "Call times", "Customer type"};
+    private static final String[] LABELS = {"Order", "Name", "Contact", "Call times", "Customer type"};
 }

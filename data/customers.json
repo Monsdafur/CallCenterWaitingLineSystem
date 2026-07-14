@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Nguyen Van An",
+        "contact": "0912345678",
+        "call_times": 5,
+        "type": "VIP"
+    },
+    {
+        "name": "Tran Thi Bich",
+        "contact": "0987654321",
+        "call_times": 2,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Le Van Cuong",
+        "contact": "0932112233",
+        "call_times": 8,
+        "type": "VIP"
+    },
+    {
+        "name": "Pham Thi Dung",
+        "contact": "0862345671",
+        "call_times": 1,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Hoang Van Em",
+        "contact": "0781234567",
+        "call_times": 3,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Vu Thi Phuong",
+        "contact": "0345678912",
+        "call_times": 12,
+        "type": "VIP"
+    },
+    {
+        "name": "Dang Van Giang",
+        "contact": "0567891234",
+        "call_times": 0,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Bui Thi Ha",
+        "contact": "0819876543",
+        "call_times": 6,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Do Van Hieu",
+        "contact": "0901234567",
+        "call_times": 15,
+        "type": "VIP"
+    },
+    {
+        "name": "Ngo Thi Kim",
+        "contact": "0388765432",
+        "call_times": 4,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Duong Van Long",
+        "contact": "0921357924",
+        "call_times": 2,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Ly Thi Mai",
+        "contact": "0857412963",
+        "call_times": 9,
+        "type": "VIP"
+    },
+    {
+        "name": "Trinh Van Nam",
+        "contact": "0709988776",
+        "call_times": 1,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Cao Thi Oanh",
+        "contact": "0966554433",
+        "call_times": 7,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Ta Van Phuc",
+        "contact": "0523344556",
+        "call_times": 10,
+        "type": "VIP"
+    },
+    {
+        "name": "Ho Thi Quyen",
+        "contact": "0994455667",
+        "call_times": 0,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Luong Van Son",
+        "contact": "0837788990",
+        "call_times": 3,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Mai Thi Tam",
+        "contact": "0776655443",
+        "call_times": 11,
+        "type": "VIP"
+    },
+    {
+        "name": "Phan Van Uy",
+        "contact": "0332211445",
+        "call_times": 2,
+        "type": "NORMAL"
+    },
+    {
+        "name": "Truong Thi Van",
+        "contact": "0898877665",
+        "call_times": 6,
+        "type": "NORMAL"
+    }
+]
