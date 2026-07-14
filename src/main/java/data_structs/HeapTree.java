@@ -35,12 +35,11 @@ public class HeapTree<T> {
             return;
         }
         // Remove element by index
-        this.elements.remove(i);
+        this.swap(i, this.elements.size() - 1);
+        this.elements.remove(this.elements.size() - 1);
         // Fix heap tree to push element with greatest value on top
-        if (i < this.elements.size()) {
-            this.siftUp(i);
-            this.siftDown(i);
-        }
+        this.siftUp(i);
+        this.siftDown(i);
     }
 
     public T get(int i) {
@@ -67,6 +66,12 @@ public class HeapTree<T> {
         }
 
         return result;
+    }
+
+    void swap(int a, int b) {
+        T temp = this.elements.get(a);
+        this.elements.set(a, this.elements.get(b));
+        this.elements.set(b, temp);
     }
 
     int getGreatest(int i) {
@@ -103,9 +108,7 @@ public class HeapTree<T> {
             int parent = (i - 1) / 2;
             // if the child is greater than the parent we swap
             if (comparator.compare(this.elements.get(i), this.elements.get(parent)) > 0) {
-                T temp = this.elements.get(i);
-                this.elements.set(i, this.elements.get(parent));
-                this.elements.set(parent, temp);
+                this.swap(parent, i);
 
                 i = parent;
             } else {
@@ -120,9 +123,7 @@ public class HeapTree<T> {
         // If the greatest value between parent left child and right child
         // is not the parent we swap those 2 values
         if (i != greatest) {
-            T temp = this.elements.get(i);
-            this.elements.set(i, this.elements.get(greatest));
-            this.elements.set(greatest, temp);
+            this.swap(greatest, i);
             // Continue traversing the entire tree
             this.siftDown(greatest);
         }
