@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -19,13 +20,53 @@ import java.util.List;
 public class Call_Center_Waiting_Line_System {
     public static void main(String[] args) {
         CallsManager call_manager = new CallsManager();
+        Scanner scanner = new Scanner(System.in);
         call_manager.loadFile("data/customers.json");
-        
-        call_manager.displayTable();
-        System.out.print("\n");
-        while (!call_manager.isEmpty()) {
-            call_manager.processCall();
+        mainMenu(call_manager, scanner);
+    }
+    
+    private static void mainMenu(CallsManager call_manager, Scanner scanner) {
+        boolean quit = false;
+        while (!quit) {
+            System.out.println("\n********** Main Menu ***********");
+            System.out.println("1. Add customer");
+            System.out.println("2. Display customer list (unsorted)");
+            System.out.println("3. Display history");
+            System.out.println("4. Process call");
+            System.out.println("5. Process all calls");
+            System.out.println("6. Remove call");
+            System.out.println("7. Quit");
+            System.out.print("Select option: ");
+            
+            String option = scanner.nextLine();
+            
+            switch(option) {
+                case "1":
+                    call_manager.addCustomer();
+                    break;
+                case "2":
+                    call_manager.displayTable();
+                    break;
+                case "3":
+                    call_manager.displayHistory();
+                    break;
+                case "4":
+                    call_manager.processCall();
+                    break;
+                case "5":
+                    while (!call_manager.isEmpty()) {
+                        call_manager.processCall();
+                    }
+                    break;
+                case "6":
+                    call_manager.removeCustomer();
+                    break;
+                case "7":
+                    quit = true;
+                    break;
+                default:
+                    System.out.println("ERROR: Option invalid");
+            }
         }
-        call_manager.displayHistory();
     }
 }

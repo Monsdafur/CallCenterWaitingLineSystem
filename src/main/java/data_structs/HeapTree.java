@@ -51,6 +51,10 @@ public class HeapTree<T> {
         return this.elements.size();
     }
     
+    public int indexOf(T object) {
+        return this.elements.indexOf(object);
+    }
+    
     public T pop() {
         // We first save the popped element into a variable
         T result = this.elements.get(0);
