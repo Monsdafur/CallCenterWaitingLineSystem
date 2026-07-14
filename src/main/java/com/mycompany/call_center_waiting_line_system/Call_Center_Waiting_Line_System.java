@@ -19,15 +19,7 @@ import java.util.List;
 public class Call_Center_Waiting_Line_System {
     public static void main(String[] args) {
         CallsManager call_manager = new CallsManager();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            List<Customer> json_data = mapper.readValue(new File("data/customers.json"), new TypeReference<List<Customer>>() {});
-            for (Customer customer : json_data){
-                call_manager.addCustomer(customer);
-            }
-        } catch(IOException e) {
-            System.out.println(e.getMessage());
-        }
+        call_manager.loadFile("data/customers.json");
         
         call_manager.displayTable();
         System.out.print("\n");

@@ -4,10 +4,14 @@
  */
 package data_objects;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 import data_structs.HeapTree;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import utilities.TableOutput;
 
@@ -29,6 +33,16 @@ public class CallsManager {
         };
         this.customers = new HeapTree<>(comparator);
         this.processed_calls = new ArrayList<>();
+    }
+    
+    public void loadFile(String file_path) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            List<Customer> json_data = mapper.readValue(new File("data/customers.json"), new TypeReference<List<Customer>>() {});
+            this.customers.addAll(json_data);
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     public void addCustomer(Customer customer) {

@@ -18,8 +18,13 @@ public class HeapTree<T> {
         this.comparator = comparator;
     }
     
+    public void addAll(List<T> list) {
+        this.elements.addAll(list);
+        // Fix heap tree to push element with greatest value on top
+        this.build();
+    }
+    
     public void push(T element) {
-        // Add new element into the array
         this.elements.add(element);
         // Fix heap tree to push element with greatest value on top
         this.siftUp(elements.size() - 1);
