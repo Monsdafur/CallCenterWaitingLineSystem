@@ -4,27 +4,22 @@
  */
 
 package com.mycompany.call_center_waiting_line_system;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import data_objects.CallsManager;
-import data_objects.Customer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  *
  * @author dqhoa
  */
-public class Call_Center_Waiting_Line_System {
+public class CallCenterWaitingLineSystem {
     public static void main(String[] args) {
         CallsManager call_manager = new CallsManager();
         Scanner scanner = new Scanner(System.in);
         call_manager.loadFile("data/customers.json");
         mainMenu(call_manager, scanner);
     }
-    
+
     private static void mainMenu(CallsManager call_manager, Scanner scanner) {
         boolean quit = false;
         while (!quit) {
@@ -37,10 +32,10 @@ public class Call_Center_Waiting_Line_System {
             System.out.println("6. Remove call");
             System.out.println("7. Quit");
             System.out.print("Select option: ");
-            
+
             String option = scanner.nextLine();
-            
-            switch(option) {
+
+            switch (option) {
                 case "1":
                     call_manager.addCustomer();
                     break;

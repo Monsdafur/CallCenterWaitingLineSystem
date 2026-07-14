@@ -17,19 +17,19 @@ public class HeapTree<T> {
         this.elements = new ArrayList<>();
         this.comparator = comparator;
     }
-    
+
     public void addAll(List<T> list) {
         this.elements.addAll(list);
         // Fix heap tree to push element with greatest value on top
         this.build();
     }
-    
+
     public void push(T element) {
         this.elements.add(element);
         // Fix heap tree to push element with greatest value on top
         this.siftUp(elements.size() - 1);
     }
-    
+
     public void remove(int i) {
         if (i > this.elements.size()) {
             return;
@@ -42,19 +42,19 @@ public class HeapTree<T> {
             this.siftDown(i);
         }
     }
-    
+
     public T get(int i) {
         return this.elements.get(i);
     }
-    
+
     public int getSize() {
         return this.elements.size();
     }
-    
+
     public int indexOf(T object) {
         return this.elements.indexOf(object);
     }
-    
+
     public T pop() {
         // We first save the popped element into a variable
         T result = this.elements.get(0);
@@ -65,13 +65,14 @@ public class HeapTree<T> {
         if (!this.elements.isEmpty()) {
             this.siftDown(0);
         }
-        
+
         return result;
     }
-    
+
     int getGreatest(int i) {
         // Self explanatory
-        // This function return the greatest value between parent, left child and right child
+        // This function return the greatest value between parent, left child and right
+        // child
         // using a custom comparator function
         // Formula to get the left child of any tree node
         // index = i * 2 + 1
@@ -79,7 +80,7 @@ public class HeapTree<T> {
         // Formula to get the right child of any tree node
         // index = i * 2 + 2
         int right = (i * 2) + 2;
-        
+
         int greatest = i;
         if (left < this.elements.size()) {
             if (comparator.compare(this.elements.get(left), this.elements.get(i)) > 0) {
@@ -91,10 +92,10 @@ public class HeapTree<T> {
                 greatest = right;
             }
         }
-        
+
         return greatest;
     }
-        
+
     void siftUp(int i) {
         while (i > 0) {
             // The formula to get parent
@@ -105,14 +106,14 @@ public class HeapTree<T> {
                 T temp = this.elements.get(i);
                 this.elements.set(i, this.elements.get(parent));
                 this.elements.set(parent, temp);
-                
+
                 i = parent;
             } else {
                 break;
             }
         }
     }
-    
+
     void siftDown(int i) {
         // Fetch greatest value in the current node
         int greatest = this.getGreatest(i);
@@ -126,7 +127,7 @@ public class HeapTree<T> {
             this.siftDown(greatest);
         }
     }
-    
+
     void build() {
         // We begin siftDowning at the left most last node that is not a leaf
         // and work our way back to the root
@@ -134,7 +135,7 @@ public class HeapTree<T> {
             this.siftDown(i);
         }
     }
-    
+
     List<T> elements;
     Comparator<? super T> comparator;
 }
