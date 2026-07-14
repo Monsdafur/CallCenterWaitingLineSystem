@@ -107,8 +107,11 @@ public class CallsManager {
     }
 
     public void processCall(boolean display_prcoessed_customer) {
-        if (this.customers.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
+        if (this.customers.getSize() > 0) {
             Customer processed_customer = this.customers.pop();
+            if (this.customers.getSize() == 0) {
+                this.current_order = 1;
+            }
             if (display_prcoessed_customer) {
                 this.displaySingleCustomer(processed_customer);
             }
@@ -116,6 +119,10 @@ public class CallsManager {
         } else {
             System.out.println("No customers to process!");
         }
+    }
+    
+    public void clearHistory() {
+        this.processed_calls.clear();
     }
 
     public void displayHistory() {

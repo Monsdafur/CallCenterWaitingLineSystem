@@ -30,7 +30,8 @@ public class CallCenterWaitingLineSystem {
             System.out.println("4. Process call");
             System.out.println("5. Process all calls");
             System.out.println("6. Remove call");
-            System.out.println("7. Quit");
+            System.out.println("7. Clear history");
+            System.out.println("8. Quit");
             System.out.print("Select option: ");
 
             String option = scanner.nextLine();
@@ -57,6 +58,9 @@ public class CallCenterWaitingLineSystem {
                     call_manager.removeCustomer();
                     break;
                 case "7":
+                    call_manager.clearHistory();
+                    break;
+                case "8":
                     quit = true;
                     break;
                 default:

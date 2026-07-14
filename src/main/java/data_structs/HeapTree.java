@@ -61,7 +61,7 @@ public class HeapTree<T> {
     }
 
     public T pop() {
-        if (this.elements.size() == 0) {
+        if (this.elements.isEmpty()) {
             return null;
         }
         // We first save the popped element into a variable
