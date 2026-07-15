@@ -128,13 +128,18 @@ public class HeapTree<T> {
 
     void siftDown(int i) {
         // Fetch greatest value in the current node
-        int greatest = this.getGreatest(i);
-        // If the greatest value between parent left child and right child
-        // is not the parent we swap those 2 values
-        if (i != greatest) {
-            this.swap(greatest, i);
-            // Continue traversing the entire tree
-            this.siftDown(greatest);
+        int greatest = -1;
+        while (true) {
+            greatest = this.getGreatest(i);
+            // If the greatest value between parent left child and right child
+            // is not the parent we swap those 2 values
+            if (i != greatest) {
+                this.swap(greatest, i);
+                // Continue traversing the entire tree
+                i = greatest;
+            } else {
+                break;
+            }
         }
     }
 
