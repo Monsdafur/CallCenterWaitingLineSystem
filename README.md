@@ -6,13 +6,13 @@ A simple system built in Java to simulate real life call centers queue to proces
 ### The priorities include (from lowest importance to highest importance):
 - Order of entry: customers who enter earlier has lower order of entry value are processed first.
 - Call times: how often a customer use this service, customer who return using the service more often are more likely to be served before other customers.
-- Customer type: VIP or Regular VIP customers are guaranteed to be served before Regular customers.
+- Customer type: VIP or Regular. VIP customers are guaranteed to be served before Regular customers.
 
 ## Algorithm
 The simulator is primarily built around a Heap Tree.\
 The heap ensures:
 - Efficient insertion of new customers.
-- Efficient removal of the highest-priority customer.
+- Efficient removal of the highest priority customer.
 - Automatic reordering whenever the queue changes.
 
 ## Features
