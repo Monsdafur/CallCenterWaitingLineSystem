@@ -27,22 +27,11 @@ public class Customer {
         this.contact = contact;
         this.call_times = call_times;
         this.type = type;
+        this.order = 1;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public void setCallTimes(int call_times) {
-        this.call_times = call_times;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public String getName() {
@@ -65,6 +54,10 @@ public class Customer {
         return this.type == Type.VIP;
     }
 
+    public int getOrder() {
+        return this.order;
+    }
+
     @Override
     public String toString() {
         return String.format("Name: %s; Contact: %s; Call times: %d", this.name, this.contact, this.call_times);
@@ -72,7 +65,8 @@ public class Customer {
 
     public String[] asStringArray() {
         return new String[] {
-                name, contact, Integer.toString(call_times), this.isVip() ? "VIP" : "Regular"
+                Integer.toString(this.order), this.name, this.contact, Integer.toString(this.call_times),
+                this.isVip() ? "VIP" : "Regular"
         };
     }
 
@@ -80,4 +74,5 @@ public class Customer {
     private String contact;
     private int call_times;
     private Type type;
+    private int order;
 }

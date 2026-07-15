@@ -12,7 +12,6 @@ import java.util.Comparator;
 import data_structs.HeapTree;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Scanner;
 import utilities.TableOutput;
 
@@ -24,7 +23,12 @@ public class CallsManager {
     public CallsManager() {
         Comparator<Customer> comparator = (ca, cb) -> {
             if (ca.isVip() == cb.isVip()) { // If 2 customers are of the same type we do manual compare
-                return ca.getCallTimes() - cb.getCallTimes();
+                int compare_result = ca.getCallTimes() - cb.getCallTimes();
+                if (compare_result == 0) {
+                    return cb.getOrder() - ca.getOrder();
+                } else {
+                    return compare_result;
+                }
             } else if (ca.isVip() && !cb.isVip()) { // If customer A is VIP but customer B is not we prioritize customer
                                                     // A and vice versa
                 return 1;
@@ -35,6 +39,7 @@ public class CallsManager {
         this.customers = new HeapTree<>(comparator);
         this.processed_calls = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        this.current_order = 1;
     }
 
     public void loadFile(String file_path) {
@@ -43,6 +48,9 @@ public class CallsManager {
             List<Customer> json_data = mapper.readValue(new File("data/customers.json"),
                     new TypeReference<List<Customer>>() {
                     });
+            for (Customer customer : json_data) {
+                customer.setOrder(this.current_order++);
+            }
             this.customers.addAll(json_data);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -67,46 +75,44 @@ public class CallsManager {
 
         Customer customer = new Customer(name, contact, call_times,
                 type == 1 ? Customer.Type.VIP : Customer.Type.NORMAL);
+        customer.setOrder(this.current_order++);
         this.customers.push(customer);
-
-        // Displaying newly added customer
-        int order = this.customers.indexOf(customer);
-        List<String> strings = new ArrayList<>();
-        strings.add(Integer.toString(order + 1));
-        Collections.addAll(strings, this.customers.get(order).asStringArray());
-        List<String[]> customer_strings = new ArrayList<>();
-        customer_strings.add(strings.toArray(new String[0]));
-
-        System.out.print("INFO: Added customer: ");
-        TableOutput.printTable(LABELS, customer_strings);
+        this.displaySingleCustomer(customer);
     }
 
     public void removeCustomer() {
         System.out.print("Enter customer order: ");
         int order = this.scanner.nextInt();
         this.scanner.nextLine();
-        if (order > this.customers.getSize()) {
-            System.out.print("ERROR: Customer order out of bounds: ");
-            return;
+        boolean found = false;
+        for (int i = 0; i < this.customers.getSize(); ++i) {
+            if (this.customers.get(i).getOrder() == order) {
+                this.displaySingleCustomer(this.customers.get(i));
+                this.customers.remove(i);
+                found = true;
+                break;
+            }
         }
-        List<String> strings = new ArrayList<>();
-        strings.add(Integer.toString(order));
-        Collections.addAll(strings, this.customers.get(order - 1).asStringArray());
-        List<String[]> customer_strings = new ArrayList<>();
-        customer_strings.add(strings.toArray(new String[0]));
+        if (this.customers.getSize() == 0) {
+            this.current_order = 1;
+        }
 
-        System.out.print("INFO: Added customer: ");
-        TableOutput.printTable(LABELS, customer_strings);
-        this.customers.remove(order - 1);
+        if (!found) {
+            System.out.print("ERROR: Customer order out of bounds: ");
+        }
     }
 
     public boolean isEmpty() {
         return this.customers.getSize() == 0;
     }
 
-    public void processCall() {
+    public void processCall(boolean display_prcoessed_customer) {
         if (this.customers.getSize() > 0) { // If the priority queue is not empty process it and ignore regular
-            this.processed_calls.add(this.customers.pop());
+            Customer processed_customer = this.customers.pop();
+            if (display_prcoessed_customer) {
+                this.displaySingleCustomer(processed_customer);
+            }
+            this.processed_calls.add(processed_customer);
         } else {
             System.out.println("No customers to process!");
         }
@@ -114,11 +120,8 @@ public class CallsManager {
 
     public void displayHistory() {
         List<String[]> string_list = new ArrayList<>();
-        for (int i = 0; i < this.processed_calls.size(); ++i) {
-            List<String> strings = new ArrayList<>();
-            strings.add(Integer.toString(i + 1));
-            Collections.addAll(strings, this.processed_calls.get(i).asStringArray());
-            string_list.add(strings.toArray(new String[0]));
+        for (Customer customer : this.processed_calls) {
+            string_list.add(customer.asStringArray());
         }
         System.out.print("History:");
         TableOutput.printTable(LABELS, string_list);
@@ -128,13 +131,16 @@ public class CallsManager {
         List<String[]> string_list = new ArrayList<>();
 
         for (int i = 0; i < this.customers.getSize(); ++i) {
-            List<String> strings = new ArrayList<>();
-            strings.add(Integer.toString(i + 1));
-            Collections.addAll(strings, this.customers.get(i).asStringArray());
-            string_list.add(strings.toArray(new String[0]));
+            string_list.add(this.customers.get(i).asStringArray());
         }
 
         System.out.print("Customer list (unsorted):");
+        TableOutput.printTable(LABELS, string_list);
+    }
+
+    void displaySingleCustomer(Customer customer) {
+        List<String[]> string_list = new ArrayList<>();
+        string_list.add(customer.asStringArray());
         TableOutput.printTable(LABELS, string_list);
     }
 
@@ -146,4 +152,6 @@ public class CallsManager {
     private static final String[] LABELS = { "Order", "Name", "Contact", "Call times", "Customer type" };
 
     private final Scanner scanner;
+
+    private int current_order;
 }

@@ -46,11 +46,11 @@ public class CallCenterWaitingLineSystem {
                     call_manager.displayHistory();
                     break;
                 case "4":
-                    call_manager.processCall();
+                    call_manager.processCall(true);
                     break;
                 case "5":
                     while (!call_manager.isEmpty()) {
-                        call_manager.processCall();
+                        call_manager.processCall(false);
                     }
                     break;
                 case "6":
