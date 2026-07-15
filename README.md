@@ -9,11 +9,11 @@ A simple system built in Java to simulate real life call centers queue to proces
 - Customer type: VIP or Regular VIP customers are guaranteed to be served before Regular customers.
 
 ## Algorithm
-The simulator is primarily built around a Heap Tree\
+The simulator is primarily built around a Heap Tree.\
 The heap ensures:
-- Efficient insertion of new customers
-- Efficient removal of the highest-priority customer
-- Automatic reordering whenever the queue changes
+- Efficient insertion of new customers.
+- Efficient removal of the highest-priority customer.
+- Automatic reordering whenever the queue changes.
 
 ## Features
 - 📂 Load customer data from a JSON file.
