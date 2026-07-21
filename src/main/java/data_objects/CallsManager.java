@@ -101,6 +101,49 @@ public class CallsManager {
             System.out.print("ERROR: Customer order out of bounds: ");
         }
     }
+    
+    public void editCustomer() {
+        System.out.print("Enter customer order: ");
+        int order = this.scanner.nextInt();
+        this.scanner.nextLine();
+        boolean found = false;
+        int index = 0;
+        for (int i = 0; i < this.customers.getSize(); ++i) {
+            if (this.customers.get(i).getOrder() == order) {
+                this.displaySingleCustomer(this.customers.get(i));
+                index = i;
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            System.out.print("ERROR: Customer order out of bounds: ");
+            return;
+        }
+        
+        System.out.print("Enter customer name: ");
+        String name = this.scanner.nextLine();
+        System.out.print("Enter customer contact: ");
+        String contact = this.scanner.nextLine();
+        System.out.print("Enter customer call times: ");
+        int call_times = Math.max(this.scanner.nextInt(), 0); // If call times < 0 we clamp it back to range [0; inf]
+        this.scanner.nextLine();
+        System.out.print("Enter customer type (1 for VIP 2 for Regular): ");
+        int type = this.scanner.nextInt();
+        if (type < 1 || type > 2) {
+            System.out.println("ERROR: Invalid customer type!");
+            return;
+        }
+        this.scanner.nextLine();
+
+        Customer customer = new Customer(name, contact, call_times,
+                type == 1 ? Customer.Type.VIP : Customer.Type.NORMAL);
+        customer.setOrder(order);
+        this.customers.set(index, customer);
+        System.out.print("Customer edited successfully");
+        this.displaySingleCustomer(customer);
+    }
 
     public boolean isEmpty() {
         return this.customers.getSize() == 0;

@@ -33,6 +33,13 @@ public class HeapTree<T> {
         // Fix heap tree to push element with greatest value on top
         this.siftUp(elements.size() - 1);
     }
+    
+    public void set(int i, T new_element) {
+        this.elements.set(i, new_element);
+        // New element value may require sifting up and down
+        this.siftUp(i);
+        this.siftDown(i);
+    }
 
     public void remove(int i) {
         if (i >= this.elements.size()) {
